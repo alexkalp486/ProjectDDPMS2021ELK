@@ -10,6 +10,7 @@ import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.WildcardQueryBuilder;
 import org.elasticsearch.common.unit.Fuzziness;
+import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -102,7 +103,10 @@ public class Application {
             }while(searchvalue.length() == 0);
 
             //We set the starting point from the first record, up to the 100th (or up to, if there are less results)
-            searchSourceBuilder.from(0);
+
+            //searchSourceBuilder.sort("log.offset", SortOrder.DESC);
+            searchSourceBuilder.sort("@timestamp", SortOrder.DESC);
+            //searchSourceBuilder.from(0);
             searchSourceBuilder.size(100);
 
             //Next we determine if the value we're searching contains wildcards or not, and treat in accordingly
